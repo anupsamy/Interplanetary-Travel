@@ -7,7 +7,11 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @param maxVertices is greater than 1
      */
     public AMGraph(int maxVertices) {
-        // TODO: Implement this method
+
+        if (maxVertices <= 1) {
+            throw new IllegalArgumentException("maxVertices is not greater than 1");
+        }
+
     }
 
 }
