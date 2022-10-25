@@ -1,5 +1,6 @@
 package cpen221.mp2.models;
 
+import cpen221.mp2.graph.ALGraph;
 import cpen221.mp2.graph.Graph;
 import cpen221.mp2.graph.ImGraph;
 import cpen221.mp2.initialization.DelaunayTriangulation;

@@ -1,9 +1,7 @@
 package cpen221.mp2.graph;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E> {
     private Map<V, ArrayList<E>> adjList;
 
@@ -77,5 +75,40 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
             }
         }
         return 0;
+    }
+
+    @Override
+    public int edgeLengthSum() {
+        return 0;
+    }
+
+    @Override
+    public boolean remove(E e) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(V v) {
+        return false;
+    }
+
+    @Override
+    public Set<V> allVertices() {
+        return null;
+    }
+
+    @Override
+    public Set<E> allEdges(V v) {
+        return null;
+    }
+
+    @Override
+    public Set<E> allEdges() {
+        return null;
+    }
+
+    @Override
+    public Map<V, E> getNeighbours(V v) {
+        return null;
     }
 }
