@@ -14,7 +14,7 @@ public interface MGraph<V extends Vertex, E extends Edge<V>> {
     public boolean addVertex(V v);
 
     /**
-     * Check if a vertex is part of the graph
+     * Check if a vertex is part of the graphg
      *
      * @param v vertex to check in the graph
      * @return true of v is part of the graph and false otherwise

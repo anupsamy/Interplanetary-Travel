@@ -77,38 +77,80 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         return 0;
     }
 
+    //returns sum assuming there's 2 of each edge
     @Override
     public int edgeLengthSum() {
-        return 0;
+        int sum = 0;
+        for (V v : adjList.keySet()){
+            for (E e : adjList.get(v)){
+                sum += e.length();
+            }
+        }
+        return sum/2;
     }
 
     @Override
     public boolean remove(E e) {
-        return false;
+        if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())){
+            if (adjList.get(e.v1()).contains(e) && adjList.get(e.v2()).contains(e)){
+                adjList.get(e.v1()).remove(e);
+                adjList.get(e.v2()).remove(e);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean remove(V v) {
-        return false;
+        if (adjList.containsKey(v)){
+            adjList.remove(v);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Set<V> allVertices() {
-        return null;
+        return adjList.keySet();
     }
 
     @Override
     public Set<E> allEdges(V v) {
-        return null;
+        if (adjList.containsKey(v)){
+            return new HashSet<>(adjList.get(v));
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Set<E> allEdges() {
-        return null;
+        Set<E> allEdges = new HashSet<>();
+        for (V v : adjList.keySet()){
+            allEdges.addAll(adjList.get(v));
+        }
+        return allEdges;
     }
 
     @Override
     public Map<V, E> getNeighbours(V v) {
-        return null;
+        Map<V, E> neighbours = new HashMap<>();
+        if (adjList.containsKey(v)){
+            for (E e : adjList.get(v)){
+                if (e.v1().equals(v)){
+                    neighbours.put(e.v2(), e);
+                } else {
+                    neighbours.put(e.v1(), e);
+                }
+            }
+            return neighbours;
+        } else {
+            return null;
+        }
     }
 }
