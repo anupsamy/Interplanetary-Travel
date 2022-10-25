@@ -1,8 +1,6 @@
 package cpen221.mp2.graph;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E> {
 
@@ -17,7 +15,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     public AMGraph(int maxVertices) {
         this.adjMatrix = new Edge[maxVertices][maxVertices];
-        this.vertices = new ArrayList<>();
+        this.vertices = new ArrayList<>(maxVertices);;
         this.maxVertices = maxVertices;
     }
 
@@ -25,13 +23,11 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     public boolean addVertex(V v){
         if (vertices.contains(v)) {
             return false;
+        } else if (vertices.size() == maxVertices) {
+            throw new RuntimeException("Number of vertices is equal to maxVertices");
         } else {
-            if (vertices.size() == maxVertices) {
-                throw new RuntimeException("Number of vertices is equal to maxVertices");
-            } else {
-                vertices.add(v);
-                return true;
-            }
+            vertices.add(v);
+            return true;
         }
     }
 
@@ -89,41 +85,6 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         } else {
             return 0;
         }
-    }
-
-    @Override
-    public int edgeLengthSum() {
-        return 0;
-    }
-
-    @Override
-    public boolean remove(E e) {
-        return false;
-    }
-
-    @Override
-    public boolean remove(V v) {
-        return false;
-    }
-
-    @Override
-    public Set<V> allVertices() {
-        return null;
-    }
-
-    @Override
-    public Set<E> allEdges(V v) {
-        return null;
-    }
-
-    @Override
-    public Set<E> allEdges() {
-        return null;
-    }
-
-    @Override
-    public Map<V, E> getNeighbours(V v) {
-        return null;
     }
 
 }
