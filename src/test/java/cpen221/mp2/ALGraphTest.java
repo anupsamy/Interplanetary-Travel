@@ -32,11 +32,12 @@ public class ALGraphTest {
     }
 
     @Test
-    public void testRemoveVertex() {
+    public void testVertex() {
         Vertex v1 = new Vertex(1, "A");
         Vertex v2 = new Vertex(2, "B");
         Vertex v3 = new Vertex(3, "C");
         Vertex v4 = new Vertex(4, "D");
+        Vertex dupe = new Vertex(4, "D");
 
         ALGraph<Vertex, Edge<Vertex>> g = new ALGraph<>();
         g.addVertex(v1);
@@ -46,18 +47,21 @@ public class ALGraphTest {
         g.remove(v2);
 
         assertFalse(g.vertex(v2));
+        assertFalse(g.addVertex(dupe));
     }
 
     @Test
-    public void testRemoveEdge () {
+    public void testEdge () {
         Vertex v1 = new Vertex(1, "A");
         Vertex v2 = new Vertex(2, "B");
         Vertex v3 = new Vertex(3, "C");
         Vertex v4 = new Vertex(4, "D");
+        Vertex v5 = new Vertex(5, "E");
 
         Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
         Edge<Vertex> e2 = new Edge<>(v2, v3, 7);
         Edge<Vertex> e3 = new Edge<>(v1, v4, 9);
+        Edge<Vertex> e4 = new Edge<>(v1, v5, 3);
 
         ALGraph<Vertex, Edge<Vertex>> g = new ALGraph<>();
 
@@ -71,6 +75,15 @@ public class ALGraphTest {
         g.remove(e2);
 
         assertFalse(g.edge(e2));
+        assertFalse(g.addEdge(e4));
+        assertFalse(g.edge(e4));
+        assertTrue(g.edge(v1, v2));
+        assertFalse(g.edge(v1, v5));
+        assertFalse(g.edge(v1, v3));
+
+        assertEquals(5, g.edgeLength(v1, v2));
+        assertEquals(0, g.edgeLength(v1, v3));
+        assertEquals(14, g.edgeLengthSum());
 
     }
 }

@@ -19,12 +19,11 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         this.maxVertices = maxVertices;
     }
 
-    //throws warning if num of vertices is equal to maxVertices
-    public boolean addVertex(V v){
+    public boolean addVertex(V v) {
         if (vertices.contains(v)) {
             return false;
         } else if (vertices.size() == maxVertices) {
-            throw new RuntimeException("Number of vertices is equal to maxVertices");
+            return false;
         } else {
             vertices.add(v);
             return true;
