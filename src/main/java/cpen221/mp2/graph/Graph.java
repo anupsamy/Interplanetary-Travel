@@ -12,7 +12,15 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     // You can re-implement this graph, or use composition and
     // rely on your implementation of ALGraph or AMGraph
 
+    private ALGraph<Vertex, Edge<Vertex>> graph;
 
+    /**
+     * Constructor using ALGraph
+     *
+     */
+    public Graph() {
+        graph = new ALGraph<Vertex, Edge<Vertex>>();
+    }
 
     //// add all new code above this line ////
 
@@ -89,16 +97,34 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * @param v2 the other end of the edge
      * @return the edge connecting v1 and v2
      */
+//    @Override
+//    public E getEdge(V v1, V v2) {
+//        E toReturn = null;
+//        var copy = new HashMap<>(getMap());
+//        for (E e : copy.get(v1)) {
+//            if (e.v1().equals(v2) || e.v2().equals(v2)) {
+//                toReturn = e;
+//            }
+//        }
+//        return toReturn;
+//    }
     @Override
     public E getEdge(V v1, V v2) {
-        E toReturn = null;
-        var copy = new HashMap<>(getMap());
-        for (E e : copy.get(v1)) {
-            if (e.v1().equals(v2) || e.v2().equals(v2)) {
-                toReturn = e;
+
+        //Get all edges in graph
+        Set<E> edgeSet = this.allEdges();
+
+        //Check whether edge is in set
+        for(E edge : edgeSet) {
+            if(edge.v1().equals(v1) && edge.v2().equals(v2)) {
+                return (E) edge.clone();
+            }
+            else if(edge.v1().equals(v2) && edge.v2().equals(v1)) {
+                return (E) edge.clone();
             }
         }
-        return toReturn;
+
+        return null;
     }
 
     /**
