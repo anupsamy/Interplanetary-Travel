@@ -1,5 +1,6 @@
 package cpen221.mp2.graph;
 
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -66,7 +67,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * @return the vertices, in order, on the shortest path from source to sink (both end points are part of the list)
      */
     @Override
-    ///Still in progress
     public List<V> shortestPath(V source, V sink) {
         HashMap<V, V> recentPred = new HashMap<>();
         Map<V, E> neighbours;
@@ -130,11 +130,48 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
         }
 
+        //Now we need to actually create the list of the shortest path
+        //We do this using our recentPred map
+        List<V> dijkstraPath = new ArrayList<>();
+        dijkstraPath.add(sink);
 
-        //Seems like its working but just need to write the code where it actually creates a list representing the shortest path
-        //But the distance value = 21, matches the test
+        while (!dijkstraPath.contains(source)) {
+            for (Map.Entry<V, V> entry : recentPred.entrySet()) {
+                V after = entry.getKey();
+                V before = entry.getValue();
+                if (after.equals(dijkstraPath.get(dijkstraPath.size() - 1))) {
+                    dijkstraPath.add(before);
+                    if (dijkstraPath.contains(source)) {
+                        break;
+                    }
+                }
+            }
+        }
 
-        return null;
+        Collections.reverse(dijkstraPath);
+
+        /*
+        while (!dijkstraPath.contains(sink)) {
+            for (Map.Entry<V, V> entry : recentPred.entrySet()) {
+                V current = entry.getKey();
+                V pre = entry.getValue();
+
+                if (dijkstraPath.size() == 1) {
+                    if(pre.equals(source)) {
+                        dijkstraPath.add(current);
+                    }
+                }
+
+                V listed = dijkstraPath.get(dijkstraPath.size() - 1);
+                if (pre.equals(listed) && !dijkstraPath.contains(sink)) {
+                    dijkstraPath.add(current);
+                }
+            }
+        }
+        */
+
+
+        return dijkstraPath;
     }
 
     /**
