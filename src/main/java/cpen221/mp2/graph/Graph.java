@@ -149,28 +149,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         }
 
         Collections.reverse(dijkstraPath);
-
-        /*
-        while (!dijkstraPath.contains(sink)) {
-            for (Map.Entry<V, V> entry : recentPred.entrySet()) {
-                V current = entry.getKey();
-                V pre = entry.getValue();
-
-                if (dijkstraPath.size() == 1) {
-                    if(pre.equals(source)) {
-                        dijkstraPath.add(current);
-                    }
-                }
-
-                V listed = dijkstraPath.get(dijkstraPath.size() - 1);
-                if (pre.equals(listed) && !dijkstraPath.contains(sink)) {
-                    dijkstraPath.add(current);
-                }
-            }
-        }
-        */
-
-
         return dijkstraPath;
     }
 
