@@ -12,14 +12,12 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     // You can re-implement this graph, or use composition and
     // rely on your implementation of ALGraph or AMGraph
 
-    private ALGraph<Vertex, Edge<Vertex>> graph;
-
     /**
      * Constructor using ALGraph
      *
      */
     public Graph() {
-        graph = new ALGraph<Vertex, Edge<Vertex>>();
+        ALGraph<Vertex, Edge<Vertex>> graph = new ALGraph<Vertex, Edge<Vertex>>();
     }
 
     /**
@@ -68,8 +66,74 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * @return the vertices, in order, on the shortest path from source to sink (both end points are part of the list)
      */
     @Override
+    ///Still in progress
     public List<V> shortestPath(V source, V sink) {
-        List<V> vertices = new ArrayList<>();
+        HashMap<V, V> recentPred = new HashMap<>();
+        Map<V, E> neighbours;
+        Set<V> visitedV = new HashSet<>();
+        HashMap<V, Integer> currentVs = new HashMap<>();
+        HashMap<V, Integer> distToNode = new HashMap<>();
+
+        //First we add the source and all other vertex's to the distToNode Map
+        //We initialize the source vertex with distance = 0, and every other node with max distance
+        distToNode.put(source, 0);
+
+        Object[] vertices = allVertices().toArray();
+        for (int i = 0; i < vertices.length; i++) {
+            if (!vertices[i].equals(source)) {
+                distToNode.put((V) vertices[i], Integer.MAX_VALUE);
+            }
+        }
+
+        //We start with our source Vertex, hence we add it to our currentVs queue
+        currentVs.put(source, 0);
+
+        //Now we start the central loop
+        //terminates once every Vertex in the currentV's has been removed
+        while (currentVs.size() > 0) {
+
+            //Remove the vertex with the minimum distance in the map
+            int min = -1;
+            V minimum = null;
+            for (Map.Entry<V, Integer> entry : currentVs.entrySet()) {
+                V key = entry.getKey();
+                Integer dist = entry.getValue();
+                if (min == -1 || dist <= min) {
+                    min = dist;
+                    minimum = key;
+                }
+            }
+
+            currentVs.remove(minimum);
+            visitedV.add(minimum);
+
+            //Add the neighbouring vertices of the vertex we just removed from the map
+            //we only add the vertices that we haven't already 'visited'
+            neighbours = getNeighbours(minimum);
+            for (V key : neighbours.keySet()) {
+                if (!visitedV.contains(key)) {
+
+                    //distance = distance(current -> removed Vertex) + distance(removed Vertex -> neighbour)
+                    int distance = distToNode.get(minimum) + getEdge(minimum, key).length();
+
+
+                    //checking to see if this new distance is shorter than current distance value that is set in map
+                    //if it is, we update the distance value in our distToNode with the newer value,
+                    //we change the most recent predecessor for the neighbour Vertex to the Vertex we just removed
+                    //we also update the value in our currentV's map
+                    if (distance < distToNode.get(key)) {
+                        distToNode.put(key, distance);
+                        recentPred.put(key, minimum);
+                        currentVs.put(key, distance);
+                    }
+                }
+            }
+        }
+
+
+        //Seems like its working but just need to write the code where it actually creates a list representing the shortest path
+        //But the distance value = 21, matches the test
+
         return null;
     }
 
@@ -100,6 +164,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     @Override
     public Map<V, E> getNeighbours(V v, int range) {
         Map<V, E> neighbours = new HashMap<>();
+        int count = 0;
         return neighbours;
     }
 

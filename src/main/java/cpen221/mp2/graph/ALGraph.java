@@ -42,7 +42,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     }
 
     /**
-     * Check if a vertex is part of the graphg
+     * Check if a vertex is part of the graph
      *
      * @param v vertex to check in the graph
      * @return true of v is part of the graph and false otherwise
@@ -270,5 +270,9 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
             assert (sum >= adjList.size());
             assert (sum % 2 == 0);
         }
+    }
+
+    public Map<V, ArrayList<E>> getMap() {
+        return new HashMap<>(adjList);
     }
 }
