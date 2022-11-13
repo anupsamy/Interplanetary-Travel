@@ -9,8 +9,6 @@ import java.util.*;
  * @param <V> represents a vertex type
  */
 public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
-    // You can re-implement this graph, or use composition and
-    // rely on your implementation of ALGraph or AMGraph
 
     /**
      * Constructor using ALGraph
@@ -201,16 +199,8 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         //Add the calculated edges to ArrayList lastEdge
         for (V value : validVList) {
             List<V> path = shortestPath(v, value);
-//            if (path.size() > 1) {
-                E edge = getEdge(path.get(path.size() - 2), path.get(path.size() - 1));
-                lastEdge.add(edge);
-//            } else if (path.size() == 1) {
-//                E edge = getEdge(v, path.get(0));
-//                lastEdge.add(edge);
-//            } else {
-//                E edge = getEdge(v, v);
-//                lastEdge.add(edge);
-//            }
+            E edge = getEdge(path.get(path.size() - 2), path.get(path.size() - 1));
+            lastEdge.add(edge);
         }
 
         //Both lists are the same size, we add it to the Map with the same iterator
