@@ -80,6 +80,4 @@ public class GraphTest {
         assertEquals(10, g.pathLength(g.shortestPath(v3, v4)));
         assertEquals(expected, g.getNeighbours(v3, 9));
     }
-
-
 }
