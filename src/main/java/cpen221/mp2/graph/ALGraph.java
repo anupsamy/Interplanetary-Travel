@@ -20,9 +20,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
 
     /**
-     * Creates an ALGraph object
-     *
-     * @return an empty ALGraph object
+     * Creates an empty ALGraph object
      */
     public ALGraph() {
         Map<Vertex, Edge> adjList = null;
@@ -35,11 +33,10 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true if the vertex was added successfully and false otherwise
      */
     @Override
-    public boolean addVertex(V v){
-        if (adjList.containsKey(v)){
+    public boolean addVertex(V v) {
+        if (adjList.containsKey(v)) {
             return false;
-        }
-        else{
+        } else {
             adjList.put(v, new ArrayList<>());
             checkRep();
             return true;
@@ -53,7 +50,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true of v is part of the graph and false otherwise
      */
     @Override
-    public boolean vertex(V v){
+    public boolean vertex(V v) {
         return adjList.containsKey(v);
     }
 
@@ -64,14 +61,13 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true if the edge was successfully added and false otherwise
      */
     @Override
-    public boolean addEdge(E e){
-        if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())){
+    public boolean addEdge(E e) {
+        if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())) {
             adjList.get(e.v1()).add(e);
             adjList.get(e.v2()).add(e);
             checkRep();
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -87,7 +83,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public boolean edge(E e) {
         if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())) {
-            if (adjList.get(e.v1()).contains(e) && adjList.get(e.v2()).contains(e)){
+            if (adjList.get(e.v1()).contains(e) && adjList.get(e.v2()).contains(e)) {
                 return true;
             } else {
                 return false;
@@ -106,15 +102,15 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     //add spec that edge has to exist in both v1 and v2 keys?
     @Override
-    public boolean edge(V v1, V v2){
-        if (adjList.containsKey(v1) && adjList.containsKey(v2)){
-            for (E e : adjList.get(v1)){
-                if (e.v1().equals(v2) || e.v2().equals(v2)){
+    public boolean edge(V v1, V v2) {
+        if (adjList.containsKey(v1) && adjList.containsKey(v2)) {
+            for (E e : adjList.get(v1)) {
+                if (e.v1().equals(v2) || e.v2().equals(v2)) {
                     return true;
                 }
             }
             return false;
-        } else{
+        } else {
             return false;
         }
     }
@@ -128,10 +124,10 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * is not a part of graph
      */
     @Override
-    public int edgeLength(V v1, V v2){
-        if (adjList.containsKey(v1) && adjList.containsKey(v2)){
-            for (E e : adjList.get(v1)){
-                if (e.v1().equals(v2) || e.v2().equals(v2)){
+    public int edgeLength(V v1, V v2) {
+        if (adjList.containsKey(v1) && adjList.containsKey(v2)) {
+            for (E e : adjList.get(v1)) {
+                if (e.v1().equals(v2) || e.v2().equals(v2)) {
                     return e.length();
                 }
             }
@@ -147,12 +143,12 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public int edgeLengthSum() {
         int sum = 0;
-        for (V v : adjList.keySet()){
-            for (E e : adjList.get(v)){
+        for (V v : adjList.keySet()) {
+            for (E e : adjList.get(v)) {
                 sum += e.length();
             }
         }
-        return sum/2;
+        return sum / 2;
     }
 
     /**
@@ -163,8 +159,8 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     public boolean remove(E e) {
-        if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())){
-            if (adjList.get(e.v1()).contains(e) && adjList.get(e.v2()).contains(e)){
+        if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())) {
+            if (adjList.get(e.v1()).contains(e) && adjList.get(e.v2()).contains(e)) {
                 adjList.get(e.v1()).remove(e);
                 adjList.get(e.v2()).remove(e);
                 checkRep();
@@ -185,7 +181,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     public boolean remove(V v) {
-        if (adjList.containsKey(v)){
+        if (adjList.containsKey(v)) {
             adjList.remove(v);
             checkRep();
             return true;
@@ -214,7 +210,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     public Set<E> allEdges(V v) {
-        if (adjList.containsKey(v)){
+        if (adjList.containsKey(v)) {
             return new HashSet<>(adjList.get(v));
         } else {
             return null;
@@ -230,7 +226,7 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public Set<E> allEdges() {
         Set<E> allEdges = new HashSet<>();
-        for (V v : adjList.keySet()){
+        for (V v : adjList.keySet()) {
             allEdges.addAll(adjList.get(v));
         }
         return allEdges;
@@ -246,9 +242,9 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public Map<V, E> getNeighbours(V v) {
         Map<V, E> neighbours = new HashMap<>();
-        if (adjList.containsKey(v)){
-            for (E e : adjList.get(v)){
-                if (e.v1().equals(v)){
+        if (adjList.containsKey(v)) {
+            for (E e : adjList.get(v)) {
+                if (e.v1().equals(v)) {
                     neighbours.put(e.v2(), e);
                 } else {
                     neighbours.put(e.v1(), e);
@@ -286,8 +282,6 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
 
     /**
      * Obtain adjList, does not permit permutation of ALGraph instance.
-     *
-     * @return
      */
     public Map<V, ArrayList<E>> getMap() {
         return new HashMap<>(adjList);

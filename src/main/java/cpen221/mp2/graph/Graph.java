@@ -1,6 +1,4 @@
 package cpen221.mp2.graph;
-
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -8,14 +6,14 @@ import java.util.*;
  *
  * @param <V> represents a vertex type
  */
-public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
+public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> implements ImGraph<V, E>, MGraph<V, E> {
 
     /**
      * Constructor using ALGraph
      *
      */
     public Graph() {
-        ALGraph<Vertex, Edge<Vertex>> graph = new ALGraph<Vertex, Edge<Vertex>>();
+        ALGraph<Vertex, Edge<Vertex>> graph = new ALGraph<>();
     }
 
     /**
@@ -35,11 +33,10 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         Set<E> edgeSet = this.allEdges();
 
         //Check whether edge is in set
-        for(E edge : edgeSet) {
-            if(edge.v1().equals(v1) && edge.v2().equals(v2)) {
+        for (E edge : edgeSet) {
+            if (edge.v1().equals(v1) && edge.v2().equals(v2)) {
                 return (E) edge.clone();
-            }
-            else if(edge.v1().equals(v2) && edge.v2().equals(v1)) {
+            } else if (edge.v1().equals(v2) && edge.v2().equals(v1)) {
                 return (E) edge.clone();
             }
         }
@@ -306,7 +303,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
                     temp.addEdge(smallestEdge);
                     HashSet<V> merged = new HashSet<>();
 
-                    //Combines the two sets containing each vertex of our smallest edge into one set containing both vertex's
+                    //Combines the two sets containing each vertex of smallest edge into one set having both vertices
                     for (int j = 0; j < vertexGroups.size(); j++) {
                         if (vertexGroups.get(j).contains(smallestEdge.v1()) || vertexGroups.get(j).contains(smallestEdge.v2())) {
                             merged.addAll(vertexGroups.get(j));
