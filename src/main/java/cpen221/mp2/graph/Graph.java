@@ -1,4 +1,6 @@
 package cpen221.mp2.graph;
+
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -6,14 +8,14 @@ import java.util.*;
  *
  * @param <V> represents a vertex type
  */
-public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> implements ImGraph<V, E>, MGraph<V, E> {
+public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
 
     /**
      * Constructor using ALGraph
      *
      */
     public Graph() {
-        ALGraph<Vertex, Edge<Vertex>> graph = new ALGraph<>();
+        ALGraph<Vertex, Edge<Vertex>> graph = new ALGraph<Vertex, Edge<Vertex>>();
     }
 
     /**
@@ -31,10 +33,11 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
 
         Set<E> edgeSet = this.allEdges();
 
-        for (E edge : edgeSet) {
-            if (edge.v1().equals(v1) && edge.v2().equals(v2)) {
+        for(E edge : edgeSet) {
+            if(edge.v1().equals(v1) && edge.v2().equals(v2)) {
                 return (E) edge.clone();
-            } else if (edge.v1().equals(v2) && edge.v2().equals(v1)) {
+            }
+            else if(edge.v1().equals(v2) && edge.v2().equals(v1)) {
                 return (E) edge.clone();
             }
         }
@@ -133,7 +136,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
      * Compute the length of a given path
      *
      * @param path indicates the vertices on the given path
-     * @return the length of path, or 0 if the path is empty
+     * @return the length of path
      */
     @Override
     public int pathLength(List<V> path) {
@@ -158,7 +161,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
         Set<V> validV = new HashSet<>();
         Map<V, E> neighbours = new HashMap<>();
 
-        //Creates a set that contains all the valid Vertices that is withing the range limit
         List<V> vertices = new ArrayList<>(allVertices());
         for (V vertex : vertices) {
             List<V> path = shortestPath(v, vertex);
@@ -168,47 +170,20 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
             }
         }
 
-        //Creates a List of all the valid vertices within range from the set
         List<V> validVList = new ArrayList<>(validV);
         List<E> lastEdge = new ArrayList<>();
 
-        //We calculate the last edge of the shortest path from the input to the entries in the List
-        //Add the calculated edges to ArrayList lastEdge
         for (V value : validVList) {
             List<V> path = shortestPath(v, value);
             E edge = getEdge(path.get(path.size() - 2), path.get(path.size() - 1));
             lastEdge.add(edge);
         }
 
-        //Both lists are the same size, we add it to the Map with the same iterator
         for (int i = 0; i < validVList.size(); i++) {
             neighbours.put(validVList.get(i), lastEdge.get(i));
         }
 
         return neighbours;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if(o == this) {
-            return true;
-        }
-
-        if(!(o instanceof Graph)) {
-            return false;
-        }
-
-        if(!(this.getMap().equals(((Graph) o).getMap()))) {
-            return false;
-        }
-
-        return true;
     }
 
     /**
@@ -249,7 +224,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
             Graph<V, E> temp = new Graph<>();
             ImGraph<V, E> minSpan;
 
-            //First we create an ArrayList, where each element represents a Set that contains one unique vertex
             for (V v : allVertices) {
                 temp.addVertex(v);
                 HashSet<V> vertex = new HashSet<>();
@@ -269,7 +243,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
                     }
                 }
 
-                //Only continue if the vertices of our smallest edge are not both contained in a singular set
                 for (HashSet<V> vertexGroup : vertexGroups) {
                     if (vertexGroup.contains(smallestEdge.v1()) && vertexGroup.contains(smallestEdge.v2())) {
                         state = 1;
@@ -278,12 +251,10 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
 
                 if (state == 0) {
 
-                    //Passes the condition, so we add it to our 'addedEdges' set
                     addedEdges.add(smallestEdge);
                     temp.addEdge(smallestEdge);
                     HashSet<V> merged = new HashSet<>();
 
-                    //Combines the two sets containing each vertex of smallest edge into one set having both vertices
                     for (int j = 0; j < vertexGroups.size(); j++) {
                         if (vertexGroups.get(j).contains(smallestEdge.v1()) || vertexGroups.get(j).contains(smallestEdge.v2())) {
                             merged.addAll(vertexGroups.get(j));
@@ -294,7 +265,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
                     vertexGroups.add(merged);
                 }
 
-                //We remove this edge from our allEdges list, whether it is valid or not
                 allEdges.remove(smallestEdge);
             }
 
@@ -364,11 +334,9 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
      */
     @Override
     public V getCenter() {
-
         int min = Integer.MAX_VALUE;
         V center = null;
 
-        //find the largest connected component
         Set<V> largestConnected = new HashSet<>();
         for (V vertex : allVertices()) {
             Set<V> connected = new HashSet<>();
@@ -386,10 +354,9 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
             }
         }
 
-        //find the center
-        for (V vertex : allVertices()) {
+        for (V vertex : largestConnected) {
             int max = 0;
-            for (V vertex2 : allVertices()) {
+            for (V vertex2 : largestConnected) {
                 if (vertex != vertex2) {
                     List<V> path = shortestPath(vertex, vertex2);
                     if (pathLength(path) > max) {
