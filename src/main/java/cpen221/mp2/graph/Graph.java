@@ -64,6 +64,13 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         Set<V> visitedV = new HashSet<>();
         HashMap<V, Integer> currentVs = new HashMap<>();
         HashMap<V, Integer> distToNode = new HashMap<>();
+        List<V> dijkstraPath = new ArrayList<>();
+
+        //returns a List with a single element (source/sink) if the source and sink are the same vertex
+        if (source.equals(sink)) {
+            dijkstraPath.add(source);
+            return dijkstraPath;
+        }
 
         //First we add the source and all other vertex's to the distToNode Map
         //We initialize the source vertex with distance = 0, and every other node with max distance
@@ -109,7 +116,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
                     //distance = distance(current -> removed Vertex) + distance(removed Vertex -> neighbour)
                     int distance = distToNode.get(minimum) + getEdge(minimum, key).length();
 
-
                     //checking to see if this new distance is shorter than current distance value that is set in map
                     //if it is, we update the distance value in our distToNode with the newer value,
                     //we change the most recent predecessor for the neighbour Vertex to the Vertex we just removed
@@ -123,9 +129,13 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
         }
 
+        //return an empty list if there is no connection between source and sink
+        if (distToNode.get(sink) == 0) {
+            return dijkstraPath;
+        }
+
         //Now we need to actually create the list of the shortest path
         //We do this using our recentPred map
-        List<V> dijkstraPath = new ArrayList<>();
         dijkstraPath.add(sink);
 
         while (!dijkstraPath.contains(source)) {
