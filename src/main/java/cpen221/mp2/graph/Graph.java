@@ -313,7 +313,24 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public V getCenter() {
-        return null;
+        int min = Integer.MAX_VALUE;
+        V center = null;
+        for (V vertex : allVertices()) {
+            int max = 0;
+            for (V vertex2 : allVertices()) {
+                if (vertex != vertex2) {
+                    List<V> path = shortestPath(vertex, vertex2);
+                    if (pathLength(path) > max) {
+                        max = pathLength(path);
+                    }
+                }
+            }
+            if (max < min) {
+                min = max;
+                center = vertex;
+            }
+        }
+        return center;
     }
 
     //// add all new code above this line ////
