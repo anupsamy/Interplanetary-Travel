@@ -9,7 +9,6 @@ import java.util.*;
  * @param <V> represents a vertex type
  */
 public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
-    // TODO: Implement this type
     // You can re-implement this graph, or use composition and
     // rely on your implementation of ALGraph or AMGraph
 
