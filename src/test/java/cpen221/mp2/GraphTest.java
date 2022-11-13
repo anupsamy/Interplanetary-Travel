@@ -276,7 +276,37 @@ public class GraphTest {
     }
 
     @Test
-    public void testSpan() {
+    public void testCenter2() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+        Vertex v3 = new Vertex(3, "C");
+        Vertex v4 = new Vertex(4, "D");
 
+        Edge<Vertex> e1 = new Edge(v1, v2, 12);
+        Edge<Vertex> e2 = new Edge(v1, v3, 12);
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addVertex(v3);
+        g.addVertex(v4);
+
+        g.addEdge(e1);
+        g.addEdge(e2);
+
+        assertEquals(v1, g.getCenter());
+    }
+
+    @Test
+    public void noEdge() {
+        Vertex v1 = new Vertex(1, "A");
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v1);
+
+        List<Vertex> test = new ArrayList<Vertex>();
+        test.add(v1);
+
+        assertEquals(0, g.pathLength(test));
     }
 }
