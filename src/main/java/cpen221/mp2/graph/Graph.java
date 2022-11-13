@@ -10,6 +10,20 @@ import java.util.*;
  */
 public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
 
+    /*
+    Representation Invariant:
+        If adjList contains more than one key, the sum of ArrayList<E>.size() >= num of keys.
+        For the list of Edge values, total sum of ArrayList<E>.size() % 2 = 0.
+        All Edge instances correspond only to vertices in the adjList.
+        No Representation Invariant from ALGraph can be violated.
+
+    Abstraction Function:
+        Represents a graph where each entry represents a vertex and its respective edges.
+
+        Representation: Graph instance, with data stored through composition with an instance of ALGraph.
+        Abstraction: A graph with a number of vertices and edges which connect certain vertices.
+     */
+
     /**
      * Constructor using ALGraph
      *
