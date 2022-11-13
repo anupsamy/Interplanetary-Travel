@@ -7,14 +7,18 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     private ArrayList<V> vertices;
     private int maxVertices;
 
-    // Rep invariant:
-    //   number of Vertex's in vertices does not exceed maxVertices.
-    //   all Edge's in adjMatrix correspond to Vertex's in vertices.
+    /*
+    Representation Invariant:
+        The number of Vertex instances in vertices does not exceed maxVertices.
+        All Edge instances in adjMatrix correspond to Vertex instances in vertices.
 
-    // Abstraction Function:
-    //   represents the adjacency matrix graph describing
-    //   where each entry represents an Edge that has co-ords corresponding to a set of Vertex indices in list.
+    Abstraction Function:
+        Represents a graph described using an adjacency matrix, where each entry represents an edge with coordinates
+        corresponding to a set of indices in the list of vertices.
 
+        Representation: AMGraph instance.
+        Abstraction: A graph with a number of vertices and edges which connect certain vertices.
+     */
 
     /**
      * Create an empty graph with an upper-bound on the number of vertices
@@ -264,6 +268,11 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         }
     }
 
+    /**
+     * Asserts that Representation Invariants have not been broken:
+     *         The number of Vertex instances in vertices does not exceed maxVertices.
+     *         All Edge instances in adjMatrix correspond to Vertex instances in vertices.
+     */
     private void checkRep() {
         assert vertices.size() <= maxVertices;
         for (int i = 0; i < adjMatrix.length; i++) {

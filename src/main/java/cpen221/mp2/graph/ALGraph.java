@@ -5,14 +5,19 @@ import java.util.*;
 public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E> {
     private Map<V, ArrayList<E>> adjList = new HashMap<>();
 
-    // Rep invariant:
-    //   if adjList contains more than one key, sum of ArrayList<E>.size() >= # of keys.
-    //   for the list of Edge values, total sum of ArrayList<E>.size() % 2 = 0.
-    //   ***add invariant stating that all Edge's correspond only to Vertex's within adjList***
+    /*
+    Representation Invariant:
+        If adjList contains more than one key, the sum of ArrayList<E>.size() >= num of keys.
+        For the list of Edge values, total sum of ArrayList<E>.size() % 2 = 0.
+        All Edge instances correspond only to vertices in the adjList.
 
-    // Abstraction Function:
-    //   represents the adjacency list graph describing
-    //   where each entry represents a vertex and its respective edges
+
+    Abstraction Function:
+        Represents a graph where each entry represents a vertex and its respective edges.
+
+        Representation: ALGraph instance.
+        Abstraction: A graph with a number of vertices and edges which connect certain vertices.
+     */
 
     /**
      * Creates an ALGraph object
@@ -74,10 +79,11 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     /**
      * Check if an edge is part of the graph
      *
+     * Precondition: Edge must exist in both v1 and v2 keys
+     *
      * @param e the edge to check in the graph
      * @return true if e is an edge in the graph and false otherwise
      */
-    //add spec that edge has to exist in both v1 and v2 keys
     @Override
     public boolean edge(E e) {
         if (adjList.containsKey(e.v1()) && adjList.containsKey(e.v2())) {
@@ -254,8 +260,14 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         }
     }
 
+    /**
+     * Asserts that Representation Invariants have not been broken:
+     *      If adjList contains more than one key, the sum of ArrayList<E>.size() >= num of keys.
+     *      For the list of Edge values, total sum of ArrayList<E>.size() % 2 = 0.
+     *      All Edges correspond only to vertices in the adjList.
+     */
     private void checkRep() {
-        //Skips assert if any of the edge values have yet to be added**
+
         for (ArrayList<E> edge : adjList.values()) {
             if (edge.size() == 0) {
                 return;
@@ -272,6 +284,11 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
         }
     }
 
+    /**
+     * Obtain adjList, does not permit permutation of ALGraph instance.
+     *
+     * @return
+     */
     public Map<V, ArrayList<E>> getMap() {
         return new HashMap<>(adjList);
     }
