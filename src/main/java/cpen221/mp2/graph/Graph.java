@@ -9,7 +9,6 @@ import java.util.*;
  * @param <V> represents a vertex type
  */
 public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> implements ImGraph<V, E>, MGraph<V, E> {
-    // TODO: Implement this type
     // You can re-implement this graph, or use composition and
     // rely on your implementation of ALGraph or AMGraph
 
@@ -25,21 +24,12 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * Find the edge that connects two vertices if such an edge exists.
      * This method should not permit graph mutations.
      *
+     * Precondition: The given vertices are connected by an edge in the graph
+     *
      * @param v1 one end of the edge
      * @param v2 the other end of the edge
      * @return the edge connecting v1 and v2
      */
-//    @Override
-//    public E getEdge(V v1, V v2) {
-//        E toReturn = null;
-//        var copy = new HashMap<>(getMap());
-//        for (E e : copy.get(v1)) {
-//            if (e.v1().equals(v2) || e.v2().equals(v2)) {
-//                toReturn = e;
-//            }
-//        }
-//        return toReturn;
-//    }
     @Override
     public E getEdge(V v1, V v2) {
 
@@ -377,7 +367,44 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public V getCenter() {
-        return null;
+        int min = Integer.MAX_VALUE;
+        V center = null;
+
+        //find the largest connected component
+        Set<V> largestConnected = new HashSet<>();
+        for (V vertex : allVertices()) {
+            Set<V> connected = new HashSet<>();
+            connected.add(vertex);
+            for (V vertex2 : allVertices()) {
+                if (vertex != vertex2) {
+                    List<V> path = shortestPath(vertex, vertex2);
+                    if (pathLength(path) != Integer.MAX_VALUE) {
+                        connected.add(vertex2);
+                    }
+                }
+            }
+            if (connected.size() > largestConnected.size()) {
+                largestConnected = connected;
+            }
+        }
+
+        //find the center of the largest connected component
+        for (V vertex : largestConnected) {
+            int max = 0;
+            for (V vertex2 : largestConnected) {
+                if (vertex != vertex2) {
+                    List<V> path = shortestPath(vertex, vertex2);
+                    if (pathLength(path) > max) {
+                        max = pathLength(path);
+                    }
+                }
+            }
+            if (max < min) {
+                min = max;
+                center = vertex;
+            }
+        }
+        return center;
     }
 
     //// add all new code above this line ////
