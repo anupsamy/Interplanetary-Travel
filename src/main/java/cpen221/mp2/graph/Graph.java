@@ -305,7 +305,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             return kConnected;
         }
 
-
         if (k == totalVertices) {
             Graph<V, E> temp = new Graph<>();
             ImGraph<V, E> minSpan;
