@@ -253,9 +253,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
 
 
 
-
-
-
         return null;
     }
 
@@ -303,6 +300,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public V getCenter() {
+
         int min = Integer.MAX_VALUE;
         V center = null;
 
@@ -324,10 +322,10 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
         }
 
-        //find the center of the largest connected component
-        for (V vertex : largestConnected) {
+        //find the center
+        for (V vertex : allVertices()) {
             int max = 0;
-            for (V vertex2 : largestConnected) {
+            for (V vertex2 : allVertices()) {
                 if (vertex != vertex2) {
                     List<V> path = shortestPath(vertex, vertex2);
                     if (pathLength(path) > max) {
