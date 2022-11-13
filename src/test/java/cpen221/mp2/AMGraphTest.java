@@ -6,6 +6,7 @@ import cpen221.mp2.graph.AMGraph;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,4 +110,103 @@ public class AMGraphTest {
 //        assertEquals(vertices, g.allVertices()); //an issue w this b too :(
 
     }
+
+    @Test
+    public void testRemoveEdge() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e1);
+
+        assertTrue(g.remove(e1));
+    }
+
+    @Test
+    public void testRemoveVertex() {
+        Vertex v1 = new Vertex(1, "A");
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+
+        assertTrue(g.remove(v1));
+    }
+
+    @Test
+    public void testAllVertices() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e1);
+
+        HashSet<Vertex> expected = new HashSet<Vertex>();
+        expected.add(v1);
+        expected.add(v2);
+
+        assertEquals(expected, g.allVertices());
+    }
+
+    @Test
+    public void testAllEdges() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e1);
+
+        HashSet<Edge> expected = new HashSet<Edge>();
+        expected.add(e1);
+
+        assertEquals(expected, g.allEdges(v1));
+    }
+
+    @Test
+    public void testAllEdges2() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e1);
+
+        HashSet<Edge> expected = new HashSet<Edge>();
+        expected.add(e1);
+
+        assertEquals(expected, g.allEdges());
+    }
+
+    @Test
+    public void testGetNeighbours() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Edge<Vertex> e1 = new Edge<>(v1, v2, 5);
+
+        AMGraph g = new AMGraph(4);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addEdge(e1);
+
+        HashMap<Vertex, Edge> expected = new HashMap<Vertex, Edge>();
+        expected.put(v2, e1);
+
+        assertEquals(expected, g.getNeighbours(v1));
+    }
+
 }
