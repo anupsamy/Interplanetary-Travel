@@ -156,7 +156,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * Compute the length of a given path
      *
      * @param path indicates the vertices on the given path
-     * @return the length of path
+     * @return the length of path, or 0 if the path is empty
      */
     @Override
     public int pathLength(List<V> path) {
