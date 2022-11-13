@@ -2,6 +2,7 @@ package cpen221.mp2;
 
 import cpen221.mp2.graph.Edge;
 import cpen221.mp2.graph.Graph;
+import cpen221.mp2.graph.ImGraph;
 import cpen221.mp2.graph.Vertex;
 import org.junit.jupiter.api.Test;
 
@@ -308,5 +309,28 @@ public class GraphTest {
         test.add(v1);
 
         assertEquals(0, g.pathLength(test));
+    }
+
+    @Test
+    public void Span() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+        Vertex v3 = new Vertex(3, "C");
+
+        Edge<Vertex> e1 = new Edge(v1, v2, 12);
+        Edge<Vertex> e2 = new Edge(v1, v3, 12);
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addVertex(v3);
+
+        g.addEdge(e1);
+        g.addEdge(e2);
+
+        HashSet<Graph<Vertex, Edge<Vertex>>> test = new HashSet<Graph<Vertex, Edge<Vertex>>>();
+        test.add(g);
+
+        assertEquals(test, g.minimumSpanningComponents(1));
     }
 }
