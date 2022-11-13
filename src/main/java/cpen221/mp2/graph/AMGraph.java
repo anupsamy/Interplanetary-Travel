@@ -153,7 +153,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
                 }
             }
         }
-        return sum;
+        return sum / 2;
     }
 
     /**
@@ -199,7 +199,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     public Set<V> allVertices() {
-        Set<V> allVertices = (Set<V>) vertices;
+        Set<V> allVertices = new HashSet<V>(vertices);
         return allVertices;
     }
 
