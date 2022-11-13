@@ -331,4 +331,41 @@ public class GraphTest {
 
         assert(test.equals(g.minimumSpanningComponents(1)));
     }
+
+    @Test
+    public void Span2() {
+        Vertex v0 = new Vertex(1, "0");
+        Vertex v1 = new Vertex(2, "1");
+        Vertex v2 = new Vertex(3, "2");
+        Vertex v3 = new Vertex(3, "3");
+        Vertex v4 = new Vertex(3, "4");
+
+        Edge<Vertex> e1 = new Edge(v0, v1, 8);
+        Edge<Vertex> e2 = new Edge(v0, v2, 5);
+        Edge<Vertex> e3 = new Edge(v1, v2, 9);
+        Edge<Vertex> e4 = new Edge(v1, v3, 11);
+        Edge<Vertex> e5 = new Edge(v2, v3, 15);
+        Edge<Vertex> e6 = new Edge(v2, v4, 10);
+        Edge<Vertex> e7 = new Edge(v3, v4, 7);
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v0);
+        g.addVertex(v1);
+        g.addVertex(v2);
+        g.addVertex(v3);
+        g.addVertex(v4);
+
+        g.addEdge(e1);
+        g.addEdge(e2);
+        g.addEdge(e3);
+        g.addEdge(e4);
+        g.addEdge(e5);
+        g.addEdge(e6);
+        g.addEdge(e7);
+
+        HashSet<Graph<Vertex, Edge<Vertex>>> test = new HashSet<Graph<Vertex, Edge<Vertex>>>();
+        test.add(g);
+
+        assert(test.equals(g.minimumSpanningComponents(2)));
+    }
 }
