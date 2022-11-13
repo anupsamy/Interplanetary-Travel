@@ -305,9 +305,29 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     public V getCenter() {
         int min = Integer.MAX_VALUE;
         V center = null;
+
+        //find the largest connected component
+        Set<V> largestConnected = new HashSet<>();
         for (V vertex : allVertices()) {
-            int max = 0;
+            Set<V> connected = new HashSet<>();
+            connected.add(vertex);
             for (V vertex2 : allVertices()) {
+                if (vertex != vertex2) {
+                    List<V> path = shortestPath(vertex, vertex2);
+                    if (pathLength(path) != Integer.MAX_VALUE) {
+                        connected.add(vertex2);
+                    }
+                }
+            }
+            if (connected.size() > largestConnected.size()) {
+                largestConnected = connected;
+            }
+        }
+
+        //find the center of the largest connected component
+        for (V vertex : largestConnected) {
+            int max = 0;
+            for (V vertex2 : largestConnected) {
                 if (vertex != vertex2) {
                     List<V> path = shortestPath(vertex, vertex2);
                     if (pathLength(path) > max) {
