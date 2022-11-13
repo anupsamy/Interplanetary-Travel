@@ -4,6 +4,9 @@ import cpen221.mp2.graph.Vertex;
 import org.junit.jupiter.api.Test;
 import cpen221.mp2.graph.AMGraph;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AMGraphTest {
@@ -28,6 +31,7 @@ public class AMGraphTest {
         g.addEdge(e3);
 
         assertTrue(g.edge(e2));
+        assertEquals(21, g.edgeLengthSum());
     }
 
     @Test
@@ -75,7 +79,11 @@ public class AMGraphTest {
         Edge<Vertex> e4 = new Edge<>(v5, v6, 4);
         Edge<Vertex> e5 = new Edge<>(v2, v4, 4);
 
-
+        Set<Vertex> vertices = new HashSet<>();
+        vertices.add(v1);
+        vertices.add(v2);
+        vertices.add(v3);
+        vertices.add(v4);
 
         AMGraph g = new AMGraph(4);
         g.addVertex(v1);
@@ -95,5 +103,10 @@ public class AMGraphTest {
         assertEquals(5, g.edgeLength(v1, v2));
         assertEquals(0, g.edgeLength(v2, v4));
         assertEquals(0, g.edgeLength(v5, v6));
+        assertFalse(g.remove(e4));
+//        assertTrue(g.remove(v4)); //creates an issue with checkrep
+//        assertFalse(g.remove(v5)); //creates an issue with checkrep
+//        assertEquals(vertices, g.allVertices()); //an issue w this b too :(
+
     }
 }

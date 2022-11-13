@@ -153,7 +153,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
                 }
             }
         }
-        return sum;
+        return sum / 2;
     }
 
     /**
