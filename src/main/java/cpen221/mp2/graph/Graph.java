@@ -375,7 +375,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             for (V vertex2 : allVertices()) {
                 if (vertex != vertex2) {
                     List<V> path = shortestPath(vertex, vertex2);
-                    if (pathLength(path) != Integer.MAX_VALUE) {
+                    if (pathLength(path) != 0) {
                         connected.add(vertex2);
                     }
                 }
