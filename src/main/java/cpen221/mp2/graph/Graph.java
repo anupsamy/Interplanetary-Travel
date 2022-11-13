@@ -255,7 +255,19 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public int diameter() {
-        return 0;
+        int diameter = 0;
+
+        for (V vertex : allVertices()) {
+            for (V vertex2 : allVertices()) {
+                if (vertex != vertex2) {
+                    List<V> path = shortestPath(vertex, vertex2);
+                    if (pathLength(path) > diameter) {
+                        diameter = pathLength(path);
+                    }
+                }
+            }
+        }
+        return diameter;
     }
 
     /**
