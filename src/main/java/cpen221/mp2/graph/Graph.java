@@ -44,7 +44,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public E getEdge(V v1, V v2) {
-
         Set<E> edgeSet = this.allEdges();
 
         for(E edge : edgeSet) {
@@ -85,9 +84,9 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         distToNode.put(source, 0);
 
         Object[] vertices = allVertices().toArray();
-        for (int i = 0; i < vertices.length; i++) {
-            if (!vertices[i].equals(source)) {
-                distToNode.put((V) vertices[i], Integer.MAX_VALUE);
+        for (Object vertex : vertices) {
+            if (!vertex.equals(source)) {
+                distToNode.put((V) vertex, Integer.MAX_VALUE);
             }
         }
 
@@ -125,7 +124,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
         }
 
-        if (distToNode.get(sink) == Integer.MAX_VALUE) {
+        if (distToNode.get(sink).equals(Integer.MAX_VALUE)) {
             return dijkstraPath;
         }
 
@@ -231,6 +230,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     public Set<ImGraph<V, E>> minimumSpanningComponents(int k) {
         Set<ImGraph<V, E>> kConnected = new HashSet<>();
         int totalVertices = allVertices().size();
+        ImGraph<V, E> kGraph;
 
         if (k == 1) {
             ArrayList<HashSet<V>> vertexGroups = new ArrayList<>();
@@ -238,7 +238,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             ArrayList<E> allEdges = new ArrayList<>(allEdges());
             Set<E> addedEdges = new HashSet<>();
             Graph<V, E> temp = new Graph<>();
-            ImGraph<V, E> minSpan;
 
             //First we create an ArrayList, where each element represents a Set that contains one unique vertex
             for (V v : allVertices) {
@@ -289,9 +288,8 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
                 allEdges.remove(smallestEdge);
             }
 
-            minSpan = temp;
-            kConnected.add(minSpan);
-            return kConnected;
+            kGraph = temp;
+            kConnected.add(kGraph);
         }
 
         if (k == totalVertices) {
@@ -300,20 +298,84 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
 
             for (V vertex : vertices) {
                 Graph<V, E> temp = new Graph<>();
-                ImGraph<V, E> minSpan;
                 temp.addVertex(vertex);
-                minSpan = temp;
-                kConnected.add(minSpan);
+                kGraph = temp;
+                kConnected.add(kGraph);
             }
-
-            return kConnected;
         }
 
         if (k >= 2 && k < totalVertices) {
+            ArrayList<HashSet<V>> vertexGroups = new ArrayList<>();
+            ArrayList<V> allVertices = new ArrayList<>(allVertices());
+            ArrayList<E> allEdges = new ArrayList<>(allEdges());
+            Set<E> addedEdges = new HashSet<>();
 
+
+            //First we create an ArrayList, where each element represents a Set that contains one unique vertex
+            for (V v : allVertices) {
+                HashSet<V> vertex = new HashSet<>();
+                vertex.add(v);
+                vertexGroups.add(vertex);
+            }
+
+            while (vertexGroups.size() != k) {
+                int state = 0;
+
+                int min = allEdges.get(0).length();
+                E smallestEdge = allEdges.get(0);
+                for (E allEdge : allEdges) {
+                    if (allEdge.length() < min) {
+                        min = allEdge.length();
+                        smallestEdge = allEdge;
+                    }
+                }
+
+                //Only continue if the vertices of our smallest edge are not both contained in a singular set
+                for (HashSet<V> vertexGroup : vertexGroups) {
+                    if (vertexGroup.contains(smallestEdge.v1()) && vertexGroup.contains(smallestEdge.v2())) {
+                        state = 1;
+                    }
+                }
+
+                if (state == 0) {
+
+                    //Passes the condition, so we add it to our 'addedEdges' set
+                    addedEdges.add(smallestEdge);
+                    HashSet<V> merged = new HashSet<>();
+
+                    //Combines the two sets containing each vertex of our smallest edge into one set containing both vertex's
+                    for (int j = 0; j < vertexGroups.size(); j++) {
+                        if (vertexGroups.get(j).contains(smallestEdge.v1()) || vertexGroups.get(j).contains(smallestEdge.v2())) {
+                            merged.addAll(vertexGroups.get(j));
+                            vertexGroups.remove(vertexGroups.get(j));
+                            j--;
+                        }
+                    }
+                    vertexGroups.add(merged);
+                }
+
+                //We remove this edge from our allEdges list, whether it is valid or not
+                allEdges.remove(smallestEdge);
+            }
+
+            List<E> edges = new ArrayList<>(addedEdges);
+
+            for (HashSet<V> vertexGroup : vertexGroups) {
+                Graph<V, E> temp = new Graph<>();
+                Object[] group = vertexGroup.toArray();
+                for (Object o : group) {
+                    temp.addVertex((V) o);
+                }
+
+                for (E edge : edges) {
+                    temp.addEdge(edge);
+                }
+
+                kGraph = temp;
+                kConnected.add(kGraph);
+            }
         }
-
-        return null;
+        return kConnected;
     }
 
     /**
