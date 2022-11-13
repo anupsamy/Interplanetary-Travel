@@ -75,6 +75,33 @@ public class GraphTest {
     }
 
     @Test
+    public void testShortestPath() {
+        Vertex v1 = new Vertex(1, "A");
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v1);
+
+        List<Vertex> expected = new ArrayList<>();
+        expected.add(v1);
+
+        assertEquals(expected, g.shortestPath(v1, v1));
+    }
+
+    @Test
+    public void testShortestPath2() {
+        Vertex v1 = new Vertex(1, "A");
+        Vertex v2 = new Vertex(2, "B");
+
+        Graph<Vertex, Edge<Vertex>> g = new Graph<>();
+        g.addVertex(v1);
+        g.addVertex(v2);
+
+        List<Vertex> expected = new ArrayList<>();
+
+        assertEquals(expected, g.shortestPath(v1, v2));
+    }
+
+    @Test
     public void testEdge() {
         Vertex v1 = new Vertex(1, "A");
         Vertex v2 = new Vertex(2, "B");
