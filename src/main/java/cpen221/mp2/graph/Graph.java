@@ -29,10 +29,8 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
     @Override
     public E getEdge(V v1, V v2) {
 
-        //Get all edges in graph
         Set<E> edgeSet = this.allEdges();
 
-        //Check whether edge is in set
         for (E edge : edgeSet) {
             if (edge.v1().equals(v1) && edge.v2().equals(v2)) {
                 return (E) edge.clone();
@@ -60,14 +58,11 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
         HashMap<V, Integer> distToNode = new HashMap<>();
         List<V> dijkstraPath = new ArrayList<>();
 
-        //returns a List with a single element (source/sink) if the source and sink are the same vertex
         if (source.equals(sink)) {
             dijkstraPath.add(source);
             return dijkstraPath;
         }
 
-        //First we add the source and all other vertex's to the distToNode Map
-        //We initialize the source vertex with distance = 0, and every other node with max distance
         distToNode.put(source, 0);
 
         Object[] vertices = allVertices().toArray();
@@ -77,14 +72,10 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
             }
         }
 
-        //We start with our source Vertex, hence we add it to our currentVs queue
         currentVs.put(source, 0);
 
-        //Now we start the central loop
-        //terminates once every Vertex in the currentV's has been removed
         while (currentVs.size() > 0) {
 
-            //Remove the vertex with the minimum distance in the map
             int min = -1;
             V minimum = null;
             for (Map.Entry<V, Integer> entry : currentVs.entrySet()) {
@@ -98,22 +89,14 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
 
             currentVs.remove(minimum);
 
-            //We also add this Vertex to the visited vertices list, so that we can avoid checking it multiple times
             visitedV.add(minimum);
 
-            //Add the neighbouring vertices of the vertex we just removed from the map
-            //we only add the vertices that we haven't already 'visited'
             neighbours = getNeighbours(minimum);
             for (V key : neighbours.keySet()) {
                 if (!visitedV.contains(key)) {
 
-                    //distance = distance(current -> removed Vertex) + distance(removed Vertex -> neighbour)
                     int distance = distToNode.get(minimum) + getEdge(minimum, key).length();
 
-                    //checking to see if this new distance is shorter than current distance value that is set in map
-                    //if it is, we update the distance value in our distToNode with the newer value,
-                    //we change the most recent predecessor for the neighbour Vertex to the Vertex we just removed
-                    //we also update the value in our currentV's map
                     if (distance < distToNode.get(key)) {
                         distToNode.put(key, distance);
                         recentPred.put(key, minimum);
@@ -123,13 +106,10 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V, E> im
             }
         }
 
-        //return an empty list if there is no connection between source and sink
         if (distToNode.get(sink) == Integer.MAX_VALUE) {
             return dijkstraPath;
         }
 
-        //Now we need to actually create the list of the shortest path
-        //We do this using our recentPred map
         dijkstraPath.add(sink);
 
         while (!dijkstraPath.contains(source)) {

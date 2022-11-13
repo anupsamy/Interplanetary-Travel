@@ -100,7 +100,6 @@ public class ALGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @param v2 the second vertex of the edge
      * @return true of the v1-v2 edge is part of the graph and false otherwise
      */
-    //add spec that edge has to exist in both v1 and v2 keys?
     @Override
     public boolean edge(V v1, V v2) {
         if (adjList.containsKey(v1) && adjList.containsKey(v2)) {

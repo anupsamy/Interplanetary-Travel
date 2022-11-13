@@ -180,8 +180,6 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @param v the vertex to remove
      * @return true if v was successfully removed and false otherwise
      */
-    //there may be an issue where the edge for the vertex is still in the matrix
-    //ill look into it later
     @Override
     public boolean remove(V v) {
         if (vertices.contains(v)) {
@@ -215,7 +213,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public Set<E> allEdges(V v) {
         Set<E> allEdges = new HashSet<>();
-        if (vertices.contains(v))
+        if (vertices.contains(v)) {
             for (int i = 0; i < vertices.size(); i++) {
                 if (adjMatrix[vertices.indexOf(v)][i] != null) {
                     allEdges.add((E) adjMatrix[vertices.indexOf(v)][i]);
