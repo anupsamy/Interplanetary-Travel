@@ -44,7 +44,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public E getEdge(V v1, V v2) {
-
         Set<E> edgeSet = this.allEdges();
 
         for(E edge : edgeSet) {
@@ -85,9 +84,9 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         distToNode.put(source, 0);
 
         Object[] vertices = allVertices().toArray();
-        for (int i = 0; i < vertices.length; i++) {
-            if (!vertices[i].equals(source)) {
-                distToNode.put((V) vertices[i], Integer.MAX_VALUE);
+        for (Object vertex : vertices) {
+            if (!vertex.equals(source)) {
+                distToNode.put((V) vertex, Integer.MAX_VALUE);
             }
         }
 
@@ -125,7 +124,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
         }
 
-        if (distToNode.get(sink) == Integer.MAX_VALUE) {
+        if (distToNode.get(sink).equals(Integer.MAX_VALUE)) {
             return dijkstraPath;
         }
 
