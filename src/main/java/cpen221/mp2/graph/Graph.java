@@ -25,21 +25,12 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * Find the edge that connects two vertices if such an edge exists.
      * This method should not permit graph mutations.
      *
+     * Precondition: The given vertices are connected by an edge in the graph
+     *
      * @param v1 one end of the edge
      * @param v2 the other end of the edge
      * @return the edge connecting v1 and v2
      */
-//    @Override
-//    public E getEdge(V v1, V v2) {
-//        E toReturn = null;
-//        var copy = new HashMap<>(getMap());
-//        for (E e : copy.get(v1)) {
-//            if (e.v1().equals(v2) || e.v2().equals(v2)) {
-//                toReturn = e;
-//            }
-//        }
-//        return toReturn;
-//    }
     @Override
     public E getEdge(V v1, V v2) {
 
@@ -202,16 +193,16 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         //Add the calculated edges to ArrayList lastEdge
         for (V value : validVList) {
             List<V> path = shortestPath(v, value);
-            if (path.size() > 1) {
+//            if (path.size() > 1) {
                 E edge = getEdge(path.get(path.size() - 2), path.get(path.size() - 1));
                 lastEdge.add(edge);
-            } else if (path.size() == 1) {
-                E edge = getEdge(v, path.get(0));
-                lastEdge.add(edge);
-            } else {
-                E edge = getEdge(v, v);
-                lastEdge.add(edge);
-            }
+//            } else if (path.size() == 1) {
+//                E edge = getEdge(v, path.get(0));
+//                lastEdge.add(edge);
+//            } else {
+//                E edge = getEdge(v, v);
+//                lastEdge.add(edge);
+//            }
         }
 
         //Both lists are the same size, we add it to the Map with the same iterator

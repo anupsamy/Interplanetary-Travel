@@ -10,6 +10,8 @@ public interface ImGraph<V extends Vertex, E extends Edge<V>> {
      * Find the edge that connects two vertices if such an edge exists.
      * This method should not permit graph mutations.
      *
+     * Precondition: The given vertices are connected by an edge in the graph
+     *
      * @param v1 one end of the edge
      * @param v2 the other end of the edge
      * @return the edge connecting v1 and v2
