@@ -62,9 +62,11 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
     /**
      * Compute the shortest path from source to sink
      *
-     * @param source the start vertex
-     * @param sink   the end vertex
+     * @param source the start Vertex
+     * @param sink the end Vertex
      * @return the vertices, in order, on the shortest path from source to sink (both end points are part of the list)
+     * returns list with one element representing Vertex is the source and sink are the same Vertex
+     * returns an empty list if there is no connection to the sink Vertex
      */
     @Override
     public List<V> shortestPath(V source, V sink) {
@@ -150,7 +152,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * Compute the length of a given path
      *
      * @param path indicates the vertices on the given path
-     * @return the length of path
+     * @return the length of path, or 0 if the path is empty
      */
     @Override
     public int pathLength(List<V> path) {
@@ -220,7 +222,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      * of the edge between V_i and V_j.</li>
      * </ul>
      *
-     * @param k
+     * @param k >= number of distinct connected components
      * @return a set of graph partitions such that a vertex in one partition
      * is no closer to a vertex in a different partition than it is to a vertex
      * in its own partition.
