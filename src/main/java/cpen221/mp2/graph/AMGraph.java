@@ -26,7 +26,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     public AMGraph(int maxVertices) {
         this.adjMatrix = new Edge[maxVertices][maxVertices];
-        this.vertices = new ArrayList<>(maxVertices);;
+        this.vertices = new ArrayList<>(maxVertices);
         this.maxVertices = maxVertices;
     }
 
@@ -56,7 +56,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true of v is part of the graph and false otherwise
      */
     @Override
-    public boolean vertex(V v){
+    public boolean vertex(V v) {
         return vertices.contains(v);
     }
 
@@ -67,8 +67,8 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true if the edge was successfully added and false otherwise
      */
     @Override
-    public boolean addEdge(E e){
-        if (vertices.contains(e.v1()) && vertices.contains(e.v2())){
+    public boolean addEdge(E e) {
+        if (vertices.contains(e.v1()) && vertices.contains(e.v2())) {
             adjMatrix[vertices.indexOf(e.v1())][vertices.indexOf(e.v2())] = e;
             adjMatrix[vertices.indexOf(e.v2())][vertices.indexOf(e.v1())] = e;
             checkRep();
@@ -85,9 +85,9 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true if e is an edge in the graoh and false otherwise
      */
     @Override
-    public boolean edge(E e){
-        if (vertices.contains(e.v1()) && vertices.contains(e.v2())){
-            if (adjMatrix[vertices.indexOf(e.v1())][vertices.indexOf(e.v2())] != null){
+    public boolean edge(E e) {
+        if (vertices.contains(e.v1()) && vertices.contains(e.v2())) {
+            if (adjMatrix[vertices.indexOf(e.v1())][vertices.indexOf(e.v2())] != null) {
                 return true;
             } else {
                 return false;
@@ -105,9 +105,9 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      * @return true of the v1-v2 edge is part of the graph and false otherwise
      */
     @Override
-    public boolean edge(V v1, V v2){
-        if (vertices.contains(v1) && vertices.contains(v2)){
-            if (adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)] != null){
+    public boolean edge(V v1, V v2) {
+        if (vertices.contains(v1) && vertices.contains(v2)) {
+            if (adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)] != null) {
                 return true;
             } else {
                 return false;
@@ -126,9 +126,9 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     //spec says returns 0 if edge length doesn't exist
-    public int edgeLength(V v1, V v2){
-        if (vertices.contains(v1) && vertices.contains(v2)){
-            if (adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)] != null){
+    public int edgeLength(V v1, V v2) {
+        if (vertices.contains(v1) && vertices.contains(v2)) {
+            if (adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)] != null) {
                 return adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)].length();
             } else {
                 return 0;
@@ -164,7 +164,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
      */
     @Override
     public boolean remove(E e) {
-        if (vertices.contains(e.v1()) && vertices.contains(e.v2())){
+        if (vertices.contains(e.v1()) && vertices.contains(e.v2())) {
             adjMatrix[vertices.indexOf(e.v1())][vertices.indexOf(e.v2())] = null;
             adjMatrix[vertices.indexOf(e.v2())][vertices.indexOf(e.v1())] = null;
             checkRep();
@@ -184,7 +184,7 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     //ill look into it later
     @Override
     public boolean remove(V v) {
-        if (vertices.contains(v)){
+        if (vertices.contains(v)) {
             vertices.remove(v);
             checkRep();
             return true;
@@ -215,9 +215,9 @@ public class AMGraph<V extends Vertex, E extends Edge<V>> implements MGraph<V, E
     @Override
     public Set<E> allEdges(V v) {
         Set<E> allEdges = new HashSet<>();
-        if (vertices.contains(v)){
+        if (vertices.contains(v))
             for (int i = 0; i < vertices.size(); i++) {
-                if (adjMatrix[vertices.indexOf(v)][i] != null){
+                if (adjMatrix[vertices.indexOf(v)][i] != null) {
                     allEdges.add((E) adjMatrix[vertices.indexOf(v)][i]);
                 }
             }
