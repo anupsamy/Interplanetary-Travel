@@ -5,6 +5,9 @@ import cpen221.mp2.graph.Graph;
 import cpen221.mp2.graph.Vertex;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GraphTest {
@@ -68,8 +71,14 @@ public class GraphTest {
         g.addEdge(e7);
         g.addEdge(e8);
 
+        Map<Vertex, Edge> expected = new HashMap<>();
+        expected.put(v2, e4);
+        expected.put(v5, e5);
+        expected.put(v6, e8);
+
         assertEquals(e6, g.getEdge(v4, v5));
         assertEquals(10, g.pathLength(g.shortestPath(v3, v4)));
+        assertEquals(expected, g.getNeighbours(v3, 9));
     }
 
 

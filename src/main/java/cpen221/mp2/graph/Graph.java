@@ -105,6 +105,8 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             }
 
             currentVs.remove(minimum);
+
+            //We also add this Vertex to the visited vertices list, so that we can avoid checking it multiple times
             visitedV.add(minimum);
 
             //Add the neighbouring vertices of the vertex we just removed from the map
@@ -178,8 +180,45 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public Map<V, E> getNeighbours(V v, int range) {
+        Set<V> validV = new HashSet<>();
         Map<V, E> neighbours = new HashMap<>();
-        int count = 0;
+
+
+        //Creates a set that contains all the valid Vertices that is withing the range limit
+        List<V> vertices = new ArrayList<>(allVertices());
+        for (V vertex : vertices) {
+            List<V> path = shortestPath(v, vertex);
+            if (pathLength(path) <= range) {
+                validV.addAll(path);
+                validV.remove(v);
+            }
+        }
+
+        //Creates a List of all the valid vertices within range from the set
+        List<V> validVList = new ArrayList<>(validV);
+        List<E> lastEdge = new ArrayList<>();
+
+        //We calculate the last edge of the shortest path from the input to the entries in the List
+        //Add the calculated edges to ArrayList lastEdge
+        for (V value : validVList) {
+            List<V> path = shortestPath(v, value);
+            if (path.size() > 1) {
+                E edge = getEdge(path.get(path.size() - 2), path.get(path.size() - 1));
+                lastEdge.add(edge);
+            } else if (path.size() == 1) {
+                E edge = getEdge(v, path.get(0));
+                lastEdge.add(edge);
+            } else {
+                E edge = getEdge(v, v);
+                lastEdge.add(edge);
+            }
+        }
+
+        //Both lists are the same size, we add it to the Map with the same iterator
+        for (int i = 0; i < validVList.size(); i++) {
+            neighbours.put(validVList.get(i), lastEdge.get(i));
+        }
+
         return neighbours;
     }
 
