@@ -174,7 +174,6 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         Set<V> validV = new HashSet<>();
         Map<V, E> neighbours = new HashMap<>();
 
-
         //Creates a set that contains all the valid Vertices that is withing the range limit
         List<V> vertices = new ArrayList<>(allVertices());
         for (V vertex : vertices) {
