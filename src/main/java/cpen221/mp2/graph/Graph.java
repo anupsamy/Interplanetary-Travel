@@ -224,6 +224,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
             Graph<V, E> temp = new Graph<>();
             ImGraph<V, E> minSpan;
 
+            //First we create an ArrayList, where each element represents a Set that contains one unique vertex
             for (V v : allVertices) {
                 temp.addVertex(v);
                 HashSet<V> vertex = new HashSet<>();
@@ -243,6 +244,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
                     }
                 }
 
+                //Only continue if the vertices of our smallest edge are not both contained in a singular set
                 for (HashSet<V> vertexGroup : vertexGroups) {
                     if (vertexGroup.contains(smallestEdge.v1()) && vertexGroup.contains(smallestEdge.v2())) {
                         state = 1;
@@ -251,10 +253,12 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
 
                 if (state == 0) {
 
+                    //Passes the condition, so we add it to our 'addedEdges' set
                     addedEdges.add(smallestEdge);
                     temp.addEdge(smallestEdge);
                     HashSet<V> merged = new HashSet<>();
 
+                    //Combines the two sets containing each vertex of our smallest edge into one set containing both vertex's
                     for (int j = 0; j < vertexGroups.size(); j++) {
                         if (vertexGroups.get(j).contains(smallestEdge.v1()) || vertexGroups.get(j).contains(smallestEdge.v2())) {
                             merged.addAll(vertexGroups.get(j));
@@ -265,6 +269,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
                     vertexGroups.add(merged);
                 }
 
+                //We remove this edge from our allEdges list, whether it is valid or not
                 allEdges.remove(smallestEdge);
             }
 
@@ -274,17 +279,22 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         }
 
         if (k == totalVertices) {
-            Graph<V, E> temp = new Graph<>();
-            ImGraph<V, E> minSpan;
+
             ArrayList<V> vertices = new ArrayList<>(allVertices());
 
             for (V vertex : vertices) {
+                Graph<V, E> temp = new Graph<>();
+                ImGraph<V, E> minSpan;
                 temp.addVertex(vertex);
+                minSpan = temp;
+                kConnected.add(minSpan);
             }
 
-            minSpan = temp;
-            kConnected.add(minSpan);
             return kConnected;
+        }
+
+        if (k >= 2 && k < totalVertices) {
+
         }
 
         return null;
