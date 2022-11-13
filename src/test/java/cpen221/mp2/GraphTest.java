@@ -323,14 +323,12 @@ public class GraphTest {
         Graph<Vertex, Edge<Vertex>> g = new Graph<>();
         g.addVertex(v1);
         g.addVertex(v2);
-        g.addVertex(v3);
 
         g.addEdge(e1);
-        g.addEdge(e2);
 
         HashSet<Graph<Vertex, Edge<Vertex>>> test = new HashSet<Graph<Vertex, Edge<Vertex>>>();
         test.add(g);
 
-        assertEquals(test, g.minimumSpanningComponents(1));
+        assert(test.equals(g.minimumSpanningComponents(1)));
     }
 }

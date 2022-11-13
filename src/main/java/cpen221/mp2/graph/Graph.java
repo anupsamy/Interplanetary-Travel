@@ -211,6 +211,29 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         return neighbours;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if(o == this) {
+            return true;
+        }
+
+        if(!(o instanceof Graph)) {
+            return false;
+        }
+
+        if(!(this.getMap().equals(((Graph) o).getMap()))) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Return a set with k connected components of the graph.
      *
