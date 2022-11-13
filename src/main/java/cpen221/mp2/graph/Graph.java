@@ -130,7 +130,7 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
         }
 
         //return an empty list if there is no connection between source and sink
-        if (distToNode.get(sink) == 0) {
+        if (distToNode.get(sink) == Integer.MAX_VALUE) {
             return dijkstraPath;
         }
 
@@ -249,6 +249,14 @@ public class Graph<V extends Vertex, E extends Edge<V>> extends ALGraph<V,E> imp
      */
     @Override
     public Set<ImGraph<V, E>> minimumSpanningComponents(int k) {
+
+
+
+
+
+
+
+
         return null;
     }
 
